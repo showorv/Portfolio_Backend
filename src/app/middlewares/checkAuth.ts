@@ -7,6 +7,7 @@ import { envVars } from "../config/env";
 import httpsCode from "http-status-codes"
 import { User } from "../modules/auth/auth.model";
 import AppError from "../ErrorHelpers/AppError";
+import { verifiedToken } from "../utils/generateToken";
 
 
 
