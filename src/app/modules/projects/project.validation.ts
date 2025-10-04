@@ -8,10 +8,7 @@ export const projectValidationSchema = z.object({
     .trim()
     .min(2, "Title must be at least 2 characters long"),
 
-  thumbnail: z
-    .string({
-     message: "Thumbnail is required",
-    }),
+
     
 
   projectLink: z
