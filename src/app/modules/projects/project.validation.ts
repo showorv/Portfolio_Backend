@@ -37,3 +37,5 @@ export const projectValidationSchema = z.object({
     .array(z.string().min(1, "Tech stack item cannot be empty"))
     .nonempty("At least one tech stack is required"),
 });
+
+export const updatedZodSchema = projectValidationSchema.partial()
