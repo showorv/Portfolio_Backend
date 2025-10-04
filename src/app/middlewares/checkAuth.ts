@@ -31,7 +31,7 @@ export const checkAuth = ()=>async(req:Request, res: Response, next: NextFunctio
           throw new AppError(httpsCode.BAD_REQUEST, "user not exist")
       }
 
-     
+     req.user = verifiedTokens
 
     next()
     

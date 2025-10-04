@@ -11,8 +11,6 @@ export const createUserToken = (user: IAuth)=>{
         email: user.email,
     
     }
-    const accessToken = generateToken(jsonPayload, envVars.JWT_SECRET as string, envVars.JWT_EXPIRED as string)
+    return generateToken(jsonPayload, envVars.JWT_SECRET as string, envVars.JWT_EXPIRED as string)
    
-    return accessToken
-
 }
