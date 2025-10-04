@@ -17,6 +17,6 @@ router.get("/",  projectController.getAllProject)
 
 router.get("/:id",  projectController.getSingleProject)
 router.patch("/:id", checkAuth(), multerUpload.single("file"), validateSchma(updatedZodSchema),  projectController.updateProject)
-router.delete("/:id",  projectController.deleteProject)
+router.delete("/:id",checkAuth(),  projectController.deleteProject)
 
 export const projectRouter = router

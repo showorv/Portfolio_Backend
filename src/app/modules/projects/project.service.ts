@@ -24,7 +24,7 @@ const createProject = async (payload: Partial<IProject>)=>{
 
 const getAllProject = async ()=>{
 
-    const projects = await Project.find()
+    const projects = await Project.find().sort({createdAt: -1})
 
     const total = await Project.countDocuments()
 

@@ -24,77 +24,77 @@ const createBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
 })
 
-// const getAllProject = catchAsyncError(async(req: Request, res: Response)=>{
+const getAllBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
    
 
-//     const project = await projectService.getAllProject()
+    const project = await blogService.getAllBlog()
 
-//    res.status(200).json({
-//         success: true,
-//         message: "project retrived successfully",
-//         data: project.data,
-//         metaData: project.metaData
+   res.status(200).json({
+        success: true,
+        message: "blog retrived successfully",
+        data: project.data,
+        metaData: project.metaData
         
-//     })
+    })
 
-// })
+})
 
-// const getSingleProject = catchAsyncError(async(req: Request, res: Response)=>{
+const getSingleBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
-//    const id = req.params.id
+   const slug = req.params.slug
 
-//     const project = await projectService.getSingleProject(id)
+    const blog = await blogService.getSingleBlog(slug)
 
-//    res.status(200).json({
-//         success: true,
-//         message: "project retrived successfully",
-//         data: project
+   res.status(200).json({
+        success: true,
+        message: "blog retrived successfully",
+        data: blog
   
         
-//     })
+    })
 
-// })
+})
 
-// const deleteProject = catchAsyncError(async(req: Request, res: Response)=>{
+const deleteBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
-//    const id = req.params.id
+   const id = req.params.id
 
-//     const project = await projectService.deleteProject(id)
+    const project = await blogService.deleteBlog(id)
 
-//    res.status(200).json({
-//         success: true,
-//         message: "project deleted successfully",
-//         data: project
+   res.status(200).json({
+        success: true,
+        message: "blog deleted successfully",
+        data: project
   
         
-//     })
+    })
 
-// })
+})
 
 
-// const updateProject = catchAsyncError(async(req: Request, res: Response)=>{
+const updateBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
-//     const payload: IProject = {
-//         ...req.body,
-//         thumbnail: req.file?.path
-//     }
+    const payload: IBlog = {
+        ...req.body,
+        thumbnail: req.file?.path
+    }
 
-//    const id = req.params.id
+   const id = req.params.id
 
-//     const project = await projectService.updateProject( payload, id)
+    const blog = await blogService.updateBlog( payload, id)
 
-//    res.status(200).json({
-//         success: true,
-//         message: "project updated successfully",
-//         data: project
+   res.status(200).json({
+        success: true,
+        message: "blog updated successfully",
+        data: blog
   
         
-//     })
+    })
 
-// })
-
-
+})
 
 
-export const blogController = {createBlog}
+
+
+export const blogController = {createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}

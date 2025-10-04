@@ -23,59 +23,59 @@ const createBlog = async (payload: Partial<IBlog>)=>{
 }
 
 
-// const getAllProject = async ()=>{
+const getAllBlog = async ()=>{
 
-//     const projects = await Project.find()
+    const blogs = await Blog.find().sort({createdAt: -1})
 
-//     const total = await Project.countDocuments()
+    const total = await Blog.countDocuments()
 
-//     return {
-//         data: projects,
-//         metaData: {
-//             total
-//         }
-//     };
-// }
+    return {
+        data: blogs,
+        metaData: {
+            total
+        }
+    };
+}
 
-// const getSingleProject = async (id: string)=>{
+const getSingleBlog = async (slug: string)=>{
 
-//     const singleProject = await Project.findById(id)
+    const singleblog = await Blog.findOne({slug})
 
-//     return singleProject
+    return singleblog
 
-// }
-
-
-// const deleteProject = async (id: string)=>{
-
-//     const project = await Project.findByIdAndDelete(id)
-
-//     return project
-
-// }
+}
 
 
-// const updateProject = async (payload:Partial<IProject>,id: string)=>{
+const deleteBlog = async (id: string)=>{
 
-//     const project = await Project.findById(id)
+    const blog = await Blog.findByIdAndDelete(id)
 
-//     if(!project){
-//         throw new AppError(401, "project not found")
-//     }
-
-
+    return blog
+blog
+}
 
 
-//     const updateproject = await Project.findByIdAndUpdate(id, payload, {new: true, runValidators:true})
+const updateBlog = async (payload:Partial<IBlog>,id: string)=>{
 
-//     if(payload.thumbnail && project.thumbnail){
-//         await cloudinaryDeleteUpload(project.thumbnail)
-//     }
+    const blog = await Blog.findById(id)
 
-//     return updateproject
-
-// }
+    if(!blog){
+        throw new AppError(401, "blog not found")
+    }
 
 
 
-export const blogService = {createBlog}
+
+    const updatedBlog = await Blog.findByIdAndUpdate(id, payload, {new: true, runValidators:true})
+
+    if(payload.thumbnail && blog.thumbnail){
+        await cloudinaryDeleteUpload(blog.thumbnail)
+    }
+
+    return updatedBlog
+
+}
+
+
+
+export const blogService = {createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}
