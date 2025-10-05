@@ -34,7 +34,7 @@ const getAllBlog = async (query: Record<string,string>)=>{
 
     delete filter["page"]
     delete filter["limit"]
-    delete filter["skip"]
+  
 
 
 
