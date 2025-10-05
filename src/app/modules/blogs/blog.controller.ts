@@ -26,9 +26,9 @@ const createBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
 const getAllBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
-   
+   const query = req.query
 
-    const project = await blogService.getAllBlog()
+    const project = await blogService.getAllBlog(query as Record<string,string>)
 
    res.status(200).json({
         success: true,

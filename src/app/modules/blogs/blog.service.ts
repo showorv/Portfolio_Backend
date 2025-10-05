@@ -23,17 +23,37 @@ const createBlog = async (payload: Partial<IBlog>)=>{
 }
 
 
-const getAllBlog = async ()=>{
+const getAllBlog = async (query: Record<string,string>)=>{
 
-    const blogs = await Blog.find().sort({createdAt: -1})
+    const filter = query
+
+    const page = Number(query.page) || 1
+    const limit = Number(query.limit)  || 5
+
+    const skip = (page-1 ) * limit
+
+    delete filter["page"]
+    delete filter["limit"]
+    delete filter["skip"]
+
+
+
+    const blogs = await Blog.find(filter).sort({createdAt: -1}).limit(limit).skip(skip)
 
     const total = await Blog.countDocuments()
 
+    const totalPage = Math.ceil(total/limit)
+
+    const meta = {
+        page,
+        limit,
+        totalPage,
+        total
+    }
+
     return {
         data: blogs,
-        metaData: {
-            total
-        }
+        metaData: meta
     };
 }
 
