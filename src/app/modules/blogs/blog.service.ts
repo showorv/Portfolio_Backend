@@ -59,7 +59,7 @@ const getAllBlog = async (query: Record<string,string>)=>{
 
 const getSingleBlog = async (slug: string)=>{
 
-    const singleblog = await Blog.findOne({slug})
+    const singleblog = await Blog.findOneAndUpdate({slug}, {$inc: {views: 1}}, {new: true})
 
     return singleblog
 

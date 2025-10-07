@@ -7,5 +7,6 @@ export interface IBlog {
     category?: string;
     isPublished: boolean;
     publishedAt?: Date;
+    views?: number
    
   }
