@@ -29,13 +29,22 @@ export const projectValidationSchema = z.object({
     })
     .min(10, "Description must be at least 10 characters long"),
 
-  features: z
-    .array(z.string().min(1, "Feature cannot be empty"))
-    .nonempty("At least one feature is required"),
+  // features: z
+  //   .array(z.string().min(1, "Feature cannot be empty"))
+  //   .nonempty("At least one feature is required"),
+    features: z.preprocess((val) => {
+      if (typeof val === "string") return val.split(",").map(t => t.trim());
+      return val;
+    }, z.array(z.string())).optional(),
 
-  techStacks: z
-    .array(z.string().min(1, "Tech stack item cannot be empty"))
-    .nonempty("At least one tech stack is required"),
+  // techStacks: z
+  //   .array(z.string().min(1, "Tech stack item cannot be empty"))
+  //   .nonempty("At least one tech stack is required"),
+
+    techStacks: z.preprocess((val) => {
+      if (typeof val === "string") return val.split(",").map(t => t.trim());
+      return val;
+    }, z.array(z.string())).optional(),
 });
 
 export const updatedZodSchema = projectValidationSchema.partial()

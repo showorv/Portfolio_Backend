@@ -13,11 +13,14 @@ export const createBlogSchema = z.object({
       .string({ message: "Content is required" })
       .min(10, "Content must be at least 10 characters"),
   
-    tags: z.array(z.string()).optional(),
+      tags: z.preprocess((val) => {
+        if (typeof val === "string") return val.split(",").map(t => t.trim());
+        return val;
+      }, z.array(z.string())).optional(),
   
     category: z.string().trim().optional(),
   
-    isPublished: z.boolean().optional()
+    isPublished: z.preprocess((val) => val === "true", z.boolean()).optional()
   
   });
   

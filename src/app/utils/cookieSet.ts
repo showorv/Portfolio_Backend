@@ -11,9 +11,12 @@ export const setCookies = (res: Response, tokenInfo: AuthToken)=>{
 
     if(tokenInfo.accessToken){
         res.cookie("access-token", tokenInfo.accessToken, {
+            // httpOnly: true,
+            // secure: true,
+            // sameSite: "none"
             httpOnly: true,
-            secure: true,
-            sameSite: "none"
+            secure: process.env.NODE_ENV === "production", // only true in prod
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
         })
     }
 

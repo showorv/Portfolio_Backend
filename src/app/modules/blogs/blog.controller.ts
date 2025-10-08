@@ -7,8 +7,10 @@ import { blogService } from "./blog.service";
 
 const createBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
+    
     const payload: IBlog = {
         ...req.body,
+      
         thumbnail: req.file?.path
     }
 
