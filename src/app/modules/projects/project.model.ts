@@ -35,6 +35,15 @@ const projectSchema = new Schema({
         type: [String],
         required: true,
       },
+      featured: {
+        type: Boolean,
+        default: false,
+      },
+      // position in the list, lowest first. set by the admin's reorder action
+      order: {
+        type: Number,
+        default: 0,
+      },
 
 }, {
     timestamps: true

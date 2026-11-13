@@ -11,7 +11,13 @@ const createProject = async (payload: Partial<IProject>)=>{
         throw new AppError(401, "project already exist")
     }
 
-    const project = await Project.create(payload)
+    // new projects go to the top of the list. projects saved before ordering
+    // existed have no order field, which sorts ahead of any number, so give
+    // them one first.
+    await Project.updateMany({ order: { $exists: false } }, { $set: { order: 0 } })
+    const first = await Project.findOne().sort({ order: 1 }).select("order")
+
+    const project = await Project.create({ ...payload, order: (first?.order ?? 0) - 1 })
 
     return project
 
@@ -23,7 +29,8 @@ const createProject = async (payload: Partial<IProject>)=>{
 
 const getAllProject = async ()=>{
 
-    const projects = await Project.find().sort({createdAt: -1})
+    // manual order first; ties (and projects never ordered) fall back to newest first
+    const projects = await Project.find().sort({order: 1, createdAt: -1})
 
     const total = await Project.countDocuments()
 
@@ -74,4 +81,16 @@ const updateProject = async (payload:Partial<IProject>,id: string)=>{
 
 
 
-export const projectService = {createProject,getAllProject,getSingleProject,deleteProject,updateProject}
+// ids arrive in the order the admin wants them shown
+const reorderProjects = async (ids: string[])=>{
+
+    await Project.bulkWrite(
+        ids.map((id, index) => ({
+            updateOne: { filter: { _id: id }, update: { $set: { order: index + 1 } } },
+        }))
+    )
+
+    return ids.length
+}
+
+export const projectService = {reorderProjects,createProject,getAllProject,getSingleProject,deleteProject,updateProject}

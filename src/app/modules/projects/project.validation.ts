@@ -13,6 +13,12 @@ export const projectValidationSchema = z.object({
 
   thumbnail: z.string().optional(),
 
+  // left undefined when absent so a partial update never flips the flag
+  featured: z.preprocess(
+    (val) => (val === undefined ? undefined : val === true || val === "true"),
+    z.boolean().optional()
+  ),
+
   projectLink: z
     .string()
     .url("Project link must be a valid URL")
@@ -50,3 +56,7 @@ export const projectValidationSchema = z.object({
 });
 
 export const updatedZodSchema = projectValidationSchema.partial()
+
+export const reorderProjectSchema = z.object({
+  ids: z.array(z.string().regex(/^[a-f\d]{24}$/i, "invalid project id")).min(1).max(500),
+})

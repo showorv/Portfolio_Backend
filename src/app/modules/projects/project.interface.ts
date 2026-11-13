@@ -9,4 +9,6 @@ export interface IProject {
     description: string;       
     features: string[];         
     techStacks: string[];
+    featured?: boolean;
+    order?: number;
 }

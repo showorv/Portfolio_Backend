@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { authRouter } from "../modules/auth/auth.route";
 import { projectRouter } from "../modules/projects/project.route";
-import { blogRouter } from "../modules/blogs/blog.route";
+import { siteRouter } from "../modules/site/site.route";
 import { skillRouter } from "../modules/skills/skill.route";
 import { messageRouter } from "../modules/message/message.route";
 import { mediaRouter } from "../modules/media/media.route";
@@ -20,8 +20,8 @@ const moduleRoutes = [
         router: projectRouter
     },
     {
-        path: "/blog",
-        router: blogRouter
+        path: "/site",
+        router: siteRouter
     },
     {
         path: "/skill",

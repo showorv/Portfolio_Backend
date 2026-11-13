@@ -10,4 +10,6 @@ router.post("/logout", authController.logout)
 
 router.get("/",checkAuth(), authController.getMe)
 
+router.post("/change-password", checkAuth(), authController.changePassword)
+
 export const authRouter = router

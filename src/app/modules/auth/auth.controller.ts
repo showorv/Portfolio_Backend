@@ -59,4 +59,19 @@ const getMe = catchAsyncError(async(req: Request,res: Response)=>{
 })
 
 
-export const authController = {login, logout, getMe}
+const changePassword = catchAsyncError(async(req: Request,res: Response)=>{
+
+    const decodedToken = req.user as JwtPayload
+
+    await authService.changePassword(decodedToken.email, req.body?.currentPassword, req.body?.newPassword)
+
+    sendResponse(res, {
+        statusCode: 200,
+        success: true,
+        message: "password changed successfully",
+        data: null,
+    })
+})
+
+
+export const authController = {login, logout, getMe, changePassword}

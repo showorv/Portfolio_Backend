@@ -94,4 +94,16 @@ const updateProject = catchAsyncError(async(req: Request, res: Response)=>{
 
 
 
-export const projectController = {createProject,getAllProject,getSingleProject,deleteProject,updateProject}
+const reorderProjects = catchAsyncError(async(req: Request, res: Response)=>{
+
+    const count = await projectService.reorderProjects(req.body.ids)
+
+   res.status(200).json({
+        success: true,
+        message: "project order saved",
+        data: count
+    })
+
+})
+
+export const projectController = {reorderProjects,createProject,getAllProject,getSingleProject,deleteProject,updateProject}

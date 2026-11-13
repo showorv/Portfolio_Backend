@@ -1,7 +1,7 @@
 import AppError from "../../ErrorHelpers/AppError"
 import { cloudinaryUpload } from "../../config/cloudinary.config"
 import { envVars } from "../../config/env"
-import { Blog } from "../blogs/blog.model,"
+import { Site } from "../site/site.model"
 import { Project } from "../projects/project.model"
 import { Skill } from "../skills/skill.model"
 import { IMedia, Media } from "./media.model"
@@ -80,15 +80,13 @@ const getAllMedia = async (query: Record<string, string>) => {
 }
 
 const countUsage = async (url: string) => {
-    const [projects, blogs, skills] = await Promise.all([
+    const [projects, skills, site] = await Promise.all([
         Project.countDocuments({ thumbnail: url }),
-        Blog.countDocuments({
-            $or: [{ thumbnail: url }, { content: { $regex: escapeRegex(url) } }],
-        }),
         Skill.countDocuments({ thumbnail: url }),
+        Site.countDocuments({ $or: [{ "hero.image": url }, { "about.image": url }] }),
     ])
 
-    return projects + blogs + skills
+    return projects + skills + site
 }
 
 const deleteMedia = async (id: string, force: boolean) => {
