@@ -1,5 +1,4 @@
 import AppError from "../../ErrorHelpers/AppError"
-import { cloudinaryDeleteUpload } from "../../config/cloudinary.config"
 import { IBlog } from "./blog.interface"
 import { Blog } from "./blog.model,"
 
@@ -66,6 +65,19 @@ const getSingleBlog = async (slug: string)=>{
 }
 
 
+// admin lookup: does not count as a view
+const getBlogById = async (id: string)=>{
+
+    const blog = await Blog.findById(id)
+
+    if(!blog){
+        throw new AppError(404, "blog not found")
+    }
+
+    return blog
+}
+
+
 const deleteBlog = async (id: string)=>{
 
     const blog = await Blog.findByIdAndDelete(id)
@@ -88,9 +100,7 @@ const updateBlog = async (payload:Partial<IBlog>,id: string)=>{
 
     const updatedBlog = await Blog.findByIdAndUpdate(id, payload, {new: true, runValidators:true})
 
-    if(payload.thumbnail && blog.thumbnail){
-        await cloudinaryDeleteUpload(blog.thumbnail)
-    }
+    // the previous thumbnail stays in the media library; remove it from there if unwanted
 
     return updatedBlog
 
@@ -98,4 +108,4 @@ const updateBlog = async (payload:Partial<IBlog>,id: string)=>{
 
 
 
-export const blogService = {createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}
+export const blogService = {getBlogById,createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}

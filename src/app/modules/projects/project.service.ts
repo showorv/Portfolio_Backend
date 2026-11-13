@@ -1,5 +1,4 @@
 import AppError from "../../ErrorHelpers/AppError"
-import { cloudinaryDeleteUpload } from "../../config/cloudinary.config"
 import { IProject } from "./project.interface"
 import { Project } from "./project.model"
 
@@ -67,9 +66,7 @@ const updateProject = async (payload:Partial<IProject>,id: string)=>{
 
     const updateproject = await Project.findByIdAndUpdate(id, payload, {new: true, runValidators:true})
 
-    if(payload.thumbnail && project.thumbnail){
-        await cloudinaryDeleteUpload(project.thumbnail)
-    }
+    // the previous thumbnail stays in the media library; remove it from there if unwanted
 
     return updateproject
 

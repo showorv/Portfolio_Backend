@@ -14,21 +14,28 @@ import { verifiedToken } from "../utils/generateToken";
 export const checkAuth = ()=>async(req:Request, res: Response, next: NextFunction)=>{
 
     try {
-        const accessToken = req.headers.authorization || req.cookies["access-token"]
+        // accepts "Bearer <token>", a bare token, or the accessToken cookie
+        const accessToken = req.headers.authorization?.replace(/^Bearer\s+/i, "") || req.cookies["accessToken"]
 
        
         
 
     if(!accessToken){
-      throw new AppError(403,"access token undefined")
+      throw new AppError(401,"access token undefined")
     }
 
-    const verifiedTokens = verifiedToken(accessToken, envVars.JWT_SECRET as string) as JwtPayload
+    let verifiedTokens: JwtPayload
+
+    try {
+        verifiedTokens = verifiedToken(accessToken, envVars.JWT_SECRET as string) as JwtPayload
+    } catch {
+        throw new AppError(401, "session expired, please login again")
+    }
 
     const userExist = await User.findOne({email: verifiedTokens.email})
 
         if(!userExist){
-          throw new AppError(httpsCode.BAD_REQUEST, "user not exist")
+          throw new AppError(httpsCode.UNAUTHORIZED, "user not exist")
       }
 
      req.user = verifiedTokens

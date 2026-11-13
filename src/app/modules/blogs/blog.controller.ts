@@ -8,13 +8,11 @@ import { blogService } from "./blog.service";
 const createBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
     
-    const payload: IBlog = {
-        ...req.body,
-      
-        thumbnail: req.file?.path
-    }
+    const payload: IBlog = { ...req.body }
 
-    console.log(payload.thumbnail);
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    
 
     const blog = await blogService.createBlog(payload)
 
@@ -58,6 +56,18 @@ const getSingleBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
 })
 
+const getBlogById = catchAsyncError(async(req: Request, res: Response)=>{
+
+    const blog = await blogService.getBlogById(req.params.id)
+
+   res.status(200).json({
+        success: true,
+        message: "blog retrived successfully",
+        data: blog
+    })
+
+})
+
 const deleteBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
    const id = req.params.id
@@ -77,12 +87,11 @@ const deleteBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
 const updateBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
-    const payload: IBlog = {
-        ...req.body,
-        thumbnail: req.file?.path
-    }
+    const payload: IBlog = { ...req.body }
 
-   const id = req.params.id
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    const id = req.params.id
 
     const blog = await blogService.updateBlog( payload, id)
 
@@ -99,4 +108,4 @@ const updateBlog = catchAsyncError(async(req: Request, res: Response)=>{
 
 
 
-export const blogController = {createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}
+export const blogController = {getBlogById,createBlog,getAllBlog,getSingleBlog,deleteBlog,updateBlog}

@@ -10,13 +10,15 @@ interface AuthToken {
 export const setCookies = (res: Response, tokenInfo: AuthToken)=>{
 
     if(tokenInfo.accessToken){
-        res.cookie("access-token", tokenInfo.accessToken, {
+        res.cookie("accessToken", tokenInfo.accessToken, {
             // httpOnly: true,
             // secure: true,
             // sameSite: "none"
             httpOnly: true,
-            secure: process.env.NODE_ENV === "production", // only true in prod
-            sameSite: process.env.NODE_ENV === "production" ? "none" : "lax"
+            secure: true,
+            sameSite: "none",
+            maxAge: 7 * 24 * 60 * 60 * 1000,
+            path: "/"
         })
     }
 

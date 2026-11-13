@@ -53,7 +53,7 @@ const blogSchema = new Schema(
 
         const baseSlug = this.title.toLowerCase().split(" ").join("-")
 
-        let slug = `${baseSlug}-blog`
+        const slug = `${baseSlug}-blog`
 
         this.slug = slug
     }
@@ -68,7 +68,7 @@ const blogSchema = new Schema(
 
     if(blog.title){
         const baseSlug = blog.title.toLowerCase().split(" ").join("-")
-        let slug = `${baseSlug}-blog`
+        const slug = `${baseSlug}-blog`
 
     
         blog.slug = slug

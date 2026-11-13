@@ -26,10 +26,10 @@ const login = catchAsyncError(async(req: Request, res: Response)=>{
 
 const logout = catchAsyncError(async(req: Request, res: Response)=>{
 
-    res.clearCookie("access-token", {
+    res.clearCookie("accessToken", {
         httpOnly: true,
-        secure: false,
-        sameSite: "lax"
+        secure: true,
+        sameSite: "none"
     })
 
 

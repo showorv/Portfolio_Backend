@@ -6,12 +6,11 @@ import { projectService } from "./project.service"
 
 const createProject = catchAsyncError(async(req: Request, res: Response)=>{
 
-    const payload: IProject = {
-        ...req.body,
-        thumbnail: req.file?.path
-    }
+    const payload: IProject = { ...req.body }
 
-    console.log(payload.thumbnail);
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    
 
     const project = await projectService.createProject(payload)
 
@@ -74,12 +73,11 @@ const deleteProject = catchAsyncError(async(req: Request, res: Response)=>{
 
 const updateProject = catchAsyncError(async(req: Request, res: Response)=>{
 
-    const payload: IProject = {
-        ...req.body,
-        thumbnail: req.file?.path
-    }
+    const payload: IProject = { ...req.body }
 
-   const id = req.params.id
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    const id = req.params.id
 
     const project = await projectService.updateProject( payload, id)
 

@@ -11,6 +11,8 @@ export const projectValidationSchema = z.object({
 
     
 
+  thumbnail: z.string().optional(),
+
   projectLink: z
     .string()
     .url("Project link must be a valid URL")
@@ -33,18 +35,18 @@ export const projectValidationSchema = z.object({
   //   .array(z.string().min(1, "Feature cannot be empty"))
   //   .nonempty("At least one feature is required"),
     features: z.preprocess((val) => {
-      if (typeof val === "string") return val.split(",").map(t => t.trim());
+      if (typeof val === "string") return val.split(",").map(t => t.trim()).filter(Boolean);
       return val;
-    }, z.array(z.string())).optional(),
+    }, z.array(z.string()).optional()),
 
   // techStacks: z
   //   .array(z.string().min(1, "Tech stack item cannot be empty"))
   //   .nonempty("At least one tech stack is required"),
 
     techStacks: z.preprocess((val) => {
-      if (typeof val === "string") return val.split(",").map(t => t.trim());
+      if (typeof val === "string") return val.split(",").map(t => t.trim()).filter(Boolean);
       return val;
-    }, z.array(z.string())).optional(),
+    }, z.array(z.string()).optional()),
 });
 
 export const updatedZodSchema = projectValidationSchema.partial()

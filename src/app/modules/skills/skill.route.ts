@@ -12,12 +12,14 @@ import { skillController } from "./skill.controller";
 
 const router = Router()
 
-router.post("/create",  multerUpload.single("file"), validateSchma(createSkillSchema), skillController.createSkill)
+router.post("/create", checkAuth(), multerUpload.single("file"), validateSchma(createSkillSchema), skillController.createSkill)
 
 
 router.get("/",  skillController.getAllSkill)
 
-router.delete("/:id",  skillController.deleteSkill)
+router.patch("/:id", checkAuth(), multerUpload.single("file"), validateSchma(createSkillSchema), skillController.updateSkill)
+
+router.delete("/:id", checkAuth(), skillController.deleteSkill)
 
 
 export const skillRouter = router

@@ -39,4 +39,26 @@ const getAllMessage = async ()=>{
 
 
 
-export const messageService = {createMessage,getAllMessage}
+const updateMessage = async (id: string, isRead: boolean)=>{
+
+    const message = await Message.findByIdAndUpdate(id, { isRead }, { new: true })
+
+    if(!message){
+        throw new AppError(404, "message not found")
+    }
+
+    return message
+}
+
+const deleteMessage = async (id: string)=>{
+
+    const message = await Message.findByIdAndDelete(id)
+
+    if(!message){
+        throw new AppError(404, "message not found")
+    }
+
+    return message
+}
+
+export const messageService = {createMessage,getAllMessage,updateMessage,deleteMessage}

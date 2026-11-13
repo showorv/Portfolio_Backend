@@ -8,6 +8,8 @@ export const createSkillSchema = z.object({
 
   
     category: z.string().trim().optional(),
+
+    thumbnail: z.string().optional(),
   
 
   

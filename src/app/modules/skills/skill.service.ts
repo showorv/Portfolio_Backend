@@ -39,6 +39,18 @@ const getAllSkill = async ()=>{
 }
 
 
+const updateSkill = async (payload: Partial<ISkill>, id: string)=>{
+
+    const skill = await Skill.findByIdAndUpdate(id, payload, {new: true, runValidators: true})
+
+    if(!skill){
+        throw new AppError(404, "skill not found")
+    }
+
+    return skill
+}
+
+
 const deleteSkill = async (id: string)=>{
 
     const skill = await Skill.findByIdAndDelete(id)
@@ -50,4 +62,4 @@ const deleteSkill = async (id: string)=>{
 
 
 
-export const skillService = {createSkill,getAllSkill,deleteSkill}
+export const skillService = {updateSkill,createSkill,getAllSkill,deleteSkill}

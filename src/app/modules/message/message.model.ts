@@ -14,9 +14,19 @@ const messageSchema = new Schema(
        
       },
      
+      subject: {
+        type: String,
+        trim: true,
+      },
+
       description: {
         type: String,
         required: [true, "description is required"],
+      },
+
+      isRead: {
+        type: Boolean,
+        default: false,
       },
    
     },

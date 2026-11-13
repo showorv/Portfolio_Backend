@@ -10,14 +10,15 @@ import { blogController } from "./blog.controller";
 
 const router = Router()
 
-router.post("/create", multerUpload.single("file"), validateSchma(createBlogSchema), blogController.createBlog)
+router.post("/create", checkAuth(), multerUpload.single("file"), validateSchma(createBlogSchema), blogController.createBlog)
 router.get("/",  blogController.getAllBlog)
 
 
 
+router.get("/id/:id", checkAuth(), blogController.getBlogById)
 router.get("/:slug",  blogController.getSingleBlog)
 
-router.patch("/:id",  multerUpload.single("file"), validateSchma(updateBlogSchema),  blogController.updateBlog)
-router.delete("/:id", blogController.deleteBlog)
+router.patch("/:id", checkAuth(), multerUpload.single("file"), validateSchma(updateBlogSchema),  blogController.updateBlog)
+router.delete("/:id", checkAuth(), blogController.deleteBlog)
 
 export const blogRouter = router

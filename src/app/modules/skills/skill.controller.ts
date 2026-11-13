@@ -8,12 +8,11 @@ import { ISkill } from "./skill.model";
 
 const createSkill = catchAsyncError(async(req: Request, res: Response)=>{
 
-    const payload: ISkill = {
-        ...req.body,
-        thumbnail: req.file?.path
-    }
+    const payload: ISkill = { ...req.body }
 
-    console.log(payload.thumbnail);
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    
 
     const skill = await skillService.createSkill(payload)
 
@@ -43,6 +42,22 @@ const getAllSkill = catchAsyncError(async(req: Request, res: Response)=>{
 
 
 
+const updateSkill = catchAsyncError(async(req: Request, res: Response)=>{
+
+    const payload: Partial<ISkill> = { ...req.body }
+
+    if (req.file?.path) payload.thumbnail = req.file.path
+
+    const skill = await skillService.updateSkill(payload, req.params.id)
+
+   res.status(200).json({
+        success: true,
+        message: "skill updated successfully",
+        data: skill
+    })
+
+})
+
 const deleteSkill = catchAsyncError(async(req: Request, res: Response)=>{
 
    const id = req.params.id
@@ -63,4 +78,4 @@ const deleteSkill = catchAsyncError(async(req: Request, res: Response)=>{
 
 
 
-export const skillController = {createSkill,getAllSkill,deleteSkill}
+export const skillController = {updateSkill,createSkill,getAllSkill,deleteSkill}
